@@ -1,6 +1,8 @@
 ﻿using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using CryptoWebsite.Models;
+using Microsoft.Extensions.Options;
 
 namespace CryptoWebsite.Extensions
 {
@@ -13,7 +15,7 @@ namespace CryptoWebsite.Extensions
             if (keyVaultEndpoint is null)
                 throw new InvalidOperationException("Store the Key Vault endpoint in a KEYVAULT_ENDPOINT environment variable.");
 
-            var secretClient = new SecretClient(new(keyVaultEndpoint), new DefaultAzureCredential());
+            SecretClient? secretClient = new SecretClient(new(keyVaultEndpoint), new DefaultAzureCredential());
             config.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
         }
     }
