@@ -1,0 +1,43 @@
+﻿@page "/crypto"
+
+<PageTitle>Crypto</PageTitle>
+
+@using CryptoWebsite.Services
+@using CryptoWebsite.Models
+@inject CryptoService CryptoService
+
+<h1>Crypto Exchanges</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (exchanges == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Exchange</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exchange in exchanges)
+            {
+                <tr>
+                    <td><NavLink href=@exchange.Website>@exchange.Name</NavLink></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private CryptoExchange[]? exchanges;
+
+    protected override async Task OnInitializedAsync()
+    {
+        exchanges = await CryptoService.GetCryptoExchangeAsync();
+    }
+}
